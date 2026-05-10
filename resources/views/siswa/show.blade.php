@@ -30,11 +30,7 @@
                     </div>
                     
                     <div class="col-md-6">
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Jurusan</label>
-                            <p class="form-control-plaintext">{{ $siswa->jurusan ?? '-' }}</p>
-                        </div>
-                        
+
                         <div class="mb-3">
                             <label class="form-label fw-bold">Jenis Kelamin</label>
                             <p class="form-control-plaintext">{{ $siswa->jenis_kelamin ?? '-' }}</p>

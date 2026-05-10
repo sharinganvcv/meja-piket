@@ -65,15 +65,6 @@
                         @enderror
                     </div>
                     
-                    <div class="mb-3">
-                        <label for="jurusan" class="form-label">Jurusan</label>
-                        <input type="text" class="form-control @error('jurusan') is-invalid @enderror" 
-                               id="jurusan" name="jurusan" value="{{ old('jurusan') }}" placeholder="Contoh: Teknik Informatika" required>
-                        @error('jurusan')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-primary">Simpan</button>
                         <a href="{{ route('siswa.index') }}" class="btn btn-outline-secondary">Batal</a>

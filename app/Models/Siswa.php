@@ -54,7 +54,6 @@ class Siswa extends Model
             'nis' => $this->nis,
             'nama' => $this->nama,
             'kelas' => $this->kelas,
-            'jurusan' => $this->jurusan,
         ];
 
         return base64_encode(json_encode($data));

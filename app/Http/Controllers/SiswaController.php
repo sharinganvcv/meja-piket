@@ -57,11 +57,12 @@ class SiswaController extends Controller
         $request->validate([
             'nis' => 'required|unique:siswa,nis',
             'nama' => 'required|max:100',
-            'kelas' => 'required|max:20',
-            'jurusan' => 'required|max:100'
+            'kelas' => 'required|max:20'
         ]);
 
-        Siswa::create($request->all());
+        $data = $request->all();
+        $data['jurusan'] = '-';
+        Siswa::create($data);
 
         return redirect()->route('siswa.index')
             ->with('success', 'Data siswa berhasil ditambahkan.');
@@ -83,11 +84,12 @@ class SiswaController extends Controller
         $request->validate([
             'nis' => 'required|unique:siswa,nis,' . $siswa->id_siswa . ',id_siswa',
             'nama' => 'required|max:100',
-            'kelas' => 'required|max:20',
-            'jurusan' => 'required|max:100'
+            'kelas' => 'required|max:20'
         ]);
 
-        $siswa->update($request->all());
+        $data = $request->all();
+        $data['jurusan'] = '-';
+        $siswa->update($data);
 
         return redirect()->route('siswa.index')
             ->with('success', 'Data siswa berhasil diperbarui.');

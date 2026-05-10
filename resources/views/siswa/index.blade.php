@@ -44,7 +44,7 @@
     <div class="tbl-head"><h5><i class="fas fa-table"></i> Daftar Siswa</h5></div>
     <div style="overflow-x:auto">
     <table class="pro-table" id="tbl">
-        <thead><tr><th>#</th><th>NIS</th><th>Nama Siswa</th><th>Kelas</th><th>Jurusan</th><th style="text-align:center">Aksi</th></tr></thead>
+        <thead><tr><th>#</th><th>NIS</th><th>Nama Siswa</th><th>Kelas</th><th style="text-align:center">Aksi</th></tr></thead>
         <tbody>
         @forelse($siswa as $i => $s)
         <tr>
@@ -52,7 +52,7 @@
             <td><span class="tag neu">{{ $s->nis }}</span></td>
             <td><div style="display:flex;align-items:center;gap:.6rem"><div class="av">{{ strtoupper(substr($s->nama,0,1)) }}</div><span style="font-weight:600;color:#2d3748">{{ $s->nama }}</span></div></td>
             <td><span class="tag p">{{ $s->kelas }}</span></td>
-            <td><span style="color:#718096;font-size:.85rem">{{ $s->jurusan ?? '-' }}</span></td>
+
             <td><div class="act-btns" style="justify-content:center">
                 <a href="{{ route('siswa.show', $s->id_siswa) }}" class="ab view" title="Detail"><i class="fas fa-eye"></i></a>
                 @if(auth()->user()->role==='admin')
@@ -62,7 +62,7 @@
             </div></td>
         </tr>
         @empty
-        <tr><td colspan="6"><div class="empty-state"><i class="fas fa-users"></i><h5>Belum ada data siswa</h5><p>Tambahkan siswa baru untuk memulai</p></div></td></tr>
+        <tr><td colspan="5"><div class="empty-state"><i class="fas fa-users"></i><h5>Belum ada data siswa</h5><p>Tambahkan siswa baru untuk memulai</p></div></td></tr>
         @endforelse
         </tbody>
     </table>
