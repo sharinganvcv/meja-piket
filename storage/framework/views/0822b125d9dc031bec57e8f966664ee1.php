@@ -43,7 +43,7 @@
     <div class="tbl-head"><h5><i class="fas fa-table"></i> Daftar Siswa</h5></div>
     <div style="overflow-x:auto">
     <table class="pro-table" id="tbl">
-        <thead><tr><th>#</th><th>NIS</th><th>Nama Siswa</th><th>Kelas</th><th>Jurusan</th><th style="text-align:center">Aksi</th></tr></thead>
+        <thead><tr><th>#</th><th>NIS</th><th>Nama Siswa</th><th>Kelas</th><th style="text-align:center">Aksi</th></tr></thead>
         <tbody>
         <?php $__empty_1 = true; $__currentLoopData = $siswa; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $i => $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
         <tr>
@@ -51,7 +51,7 @@
             <td><span class="tag neu"><?php echo e($s->nis); ?></span></td>
             <td><div style="display:flex;align-items:center;gap:.6rem"><div class="av"><?php echo e(strtoupper(substr($s->nama,0,1))); ?></div><span style="font-weight:600;color:#2d3748"><?php echo e($s->nama); ?></span></div></td>
             <td><span class="tag p"><?php echo e($s->kelas); ?></span></td>
-            <td><span style="color:#718096;font-size:.85rem"><?php echo e($s->jurusan ?? '-'); ?></span></td>
+
             <td><div class="act-btns" style="justify-content:center">
                 <a href="<?php echo e(route('siswa.show', $s->id_siswa)); ?>" class="ab view" title="Detail"><i class="fas fa-eye"></i></a>
                 <?php if(auth()->user()->role==='admin'): ?>
@@ -61,7 +61,7 @@
             </div></td>
         </tr>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-        <tr><td colspan="6"><div class="empty-state"><i class="fas fa-users"></i><h5>Belum ada data siswa</h5><p>Tambahkan siswa baru untuk memulai</p></div></td></tr>
+        <tr><td colspan="5"><div class="empty-state"><i class="fas fa-users"></i><h5>Belum ada data siswa</h5><p>Tambahkan siswa baru untuk memulai</p></div></td></tr>
         <?php endif; ?>
         </tbody>
     </table>
