@@ -34,14 +34,19 @@
 .ms-lbl{font-size:.72rem;color:#a0aec0;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
 
 /* FILTER BOX */
-.filter-box{background:#fff;border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:1.25rem;box-shadow:var(--shadow);border:1px solid rgba(102,126,234,.08);display:flex;gap:.75rem;flex-wrap:wrap;align-items:center}
-.filter-search{flex:1;min-width:220px;position:relative}
+.filter-card{background:#fff;border-radius:var(--radius);padding:1.25rem;margin-bottom:1.25rem;box-shadow:var(--shadow);border:1px solid rgba(102,126,234,.08)}
+.filter-search{position:relative}
 .filter-search i{position:absolute;left:.85rem;top:50%;transform:translateY(-50%);color:#a0aec0}
-.filter-search input{width:100%;padding:.6rem .75rem .6rem 2.2rem;border:2px solid #e8ecf4;border-radius:10px;font-size:.85rem;color:#2d3748;outline:none;transition:border .2s}
-.filter-search input:focus{border-color:#667eea}
-.filter-sel select{padding:.6rem .9rem;border:2px solid #e8ecf4;border-radius:10px;font-size:.85rem;color:#2d3748;outline:none;transition:border .2s;background:#fff;min-width:140px}
-.filter-sel select:focus{border-color:#667eea}
-.filter-info{margin-left:auto;font-size:.82rem;color:#a0aec0;font-weight:500}
+.filter-search input{width:100%;padding:.6rem .75rem .6rem 2.2rem;border:2px solid #e8ecf4;border-radius:10px;font-size:.85rem;color:#2d3748;outline:none;transition:border .2s;background:#f8fafc}
+.filter-search input:focus{border-color:#667eea;background:#fff}
+.filter-info{font-size:.82rem;color:#a0aec0;font-weight:600;background:#f1f5f9;padding:.4rem .8rem;border-radius:8px}
+
+.filter-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#718096;margin-bottom:.75rem}
+.checkbox-group{display:flex;flex-direction:column;gap:.5rem}
+.checkbox-group.scrollable{max-height:150px;overflow-y:auto;padding-right:.5rem}
+.check-item{display:flex;align-items:center;gap:.6rem;font-size:.85rem;color:#4a5568;cursor:pointer;transition:color .2s}
+.check-item:hover{color:#667eea}
+.check-item input[type="checkbox"]{width:16px;height:16px;border-radius:4px;border:2px solid #e2e8f0;cursor:pointer;accent-color:#667eea}
 
 /* TABLE CARD */
 .tbl-card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid rgba(102,126,234,.08);overflow:hidden}

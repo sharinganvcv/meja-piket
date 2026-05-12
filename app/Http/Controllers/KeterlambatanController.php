@@ -47,6 +47,7 @@ class KeterlambatanController extends Controller
             'id_siswa' => 'required|exists:siswa,id_siswa',
             'id_guru' => 'required|exists:guru,id_guru',
             'waktu_datang' => 'required|date',
+            'durasi' => 'required|integer|min:0',
             'keterangan' => 'nullable'
         ]);
 
@@ -66,6 +67,7 @@ class KeterlambatanController extends Controller
     public function update(Request $request, Keterlambatan $keterlambatan)
     {
         $request->validate([
+            'durasi' => 'required|integer|min:0',
             'keterangan' => 'nullable'
         ]);
 
@@ -91,7 +93,7 @@ class KeterlambatanController extends Controller
 
     public function laporan()
     {
-        if (auth()->user()->role !== 'kepsek') {
+        if (!in_array(auth()->user()->role, ['admin', 'guru', 'kepsek'])) {
             abort(403, 'Unauthorized access');
         }
         

@@ -49,6 +49,16 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+
+                <div class="mb-3">
+                    <label for="durasi" class="form-label">Durasi Keterlambatan (Menit)</label>
+                    <input type="number" class="form-control @error('durasi') is-invalid @enderror" 
+                           id="durasi" name="durasi" value="{{ old('durasi', 0) }}" required min="0">
+                    @error('durasi')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                    <small class="text-muted">Masukkan jumlah menit siswa terlambat</small>
+                </div>
                 
                 <div class="mb-3">
                     <label for="keterangan" class="form-label">Keterangan</label>

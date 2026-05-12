@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meja Piket - Login System</title>
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
+    <title>SMKN 1 CIOMAS - Login System</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="<?php echo e(asset('favicon.ico')); ?>">
@@ -15,642 +16,452 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Custom CSS -->
     <style>
         :root {
-            --primary-color: #6366f1;
-            --secondary-color: #8b5cf6;
-            --success-color: #10b981;
-            --info-color: #06b6d4;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-            --light-color: #f8fafc;
-            --dark-color: #1e293b;
-            --gradient-primary: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-            --gradient-secondary: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-dark: #4f46e5;
+            --accent: #f472b6;
+            --bg-light: #f1f5f9;
+            --glass: rgba(255, 255, 255, 0.9);
+            --glass-border: #e2e8f0;
+            --glass-blur: blur(20px);
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-light);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(244, 114, 182, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(244, 114, 182, 0.08) 0px, transparent 50%);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 20px;
+            color: var(--text-primary);
             overflow-x: hidden;
         }
-        
-        .login-container {
-            width: 100%;
-            max-width: 1000px;
-            display: flex;
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
-            min-height: 550px;
+
+        /* Abstract Shapes */
+        .shape {
+            position: absolute;
+            z-index: -1;
+            filter: blur(80px);
+            border-radius: 50%;
         }
-        
-        .login-left {
-            flex: 1;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            padding: 2rem;
+        .shape-1 { width: 400px; height: 400px; background: var(--primary); top: -100px; left: -100px; opacity: 0.1; }
+        .shape-2 { width: 300px; height: 300px; background: var(--accent); bottom: -50px; right: -50px; opacity: 0.1; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-light);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            background: var(--glass);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Left Side - Branding */
+        .brand-section {
+            flex: 1.2;
+            padding: 4rem;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
+            justify-content: space-between;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.03), rgba(244, 114, 182, 0.03));
+            border-right: 1px solid var(--glass-border);
             position: relative;
+            overflow: hidden;
         }
-        
-        .login-left::before {
+
+        .brand-section::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.05" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
-            background-size: cover;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('https://www.transparenttextures.com/patterns/cubes.png');
+            opacity: 0.02;
+            pointer-events: none;
         }
-        
-        .login-right {
-            flex: 1;
-            padding: 2rem;
+
+        .logo-box {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 3rem;
         }
-        
-        .main-logo {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+
+        .logo-circle {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+        }
+
+        .logo-circle i { font-size: 1.5rem; color: white; }
+
+        .logo-text { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; color: #0f172a; }
+
+        .hero-content h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            color: #0f172a;
+        }
+
+        .hero-content p { font-size: 1.1rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 2.5rem; max-width: 400px; }
+
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .stat-card {
+            background: white;
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem;
             border-radius: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .stat-card i { font-size: 1.5rem; color: var(--primary); margin-bottom: 10px; }
+        .stat-card div { font-weight: 700; font-size: 1.1rem; color: #0f172a; }
+        .stat-card span { font-size: 0.8rem; color: var(--text-secondary); }
+
+        /* Right Side - Form */
+        .form-section {
+            flex: 1;
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: white;
+        }
+
+        .form-header { margin-bottom: 2.5rem; }
+        .form-header h2 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; color: #0f172a; }
+        .form-header p { color: var(--text-secondary); }
+
+        .input-group-custom { position: relative; margin-bottom: 1.5rem; }
+        .input-group-custom i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+        .input-group-custom input {
+            width: 100%;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 16px 16px 16px 52px;
+            color: #0f172a;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        .input-group-custom input:focus {
+            outline: none;
+            background: white;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+        .input-group-custom input:focus + i { color: var(--primary); }
+
+        .input-group-custom label {
+            position: absolute;
+            left: 52px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .input-group-custom input:focus ~ label,
+        .input-group-custom input:not(:placeholder-shown) ~ label {
+            top: -10px;
+            left: 15px;
+            font-size: 0.75rem;
+            color: var(--primary);
+            background: white;
+            padding: 0 8px;
+            border-radius: 4px;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white !important;
+            border: none;
+            width: 100%;
+            padding: 16px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1.5rem;
-            animation: float 3s ease-in-out infinite;
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
-        }
-        
-        .main-logo i {
-            font-size: 3rem;
-            color: white;
-        }
-        
-        
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-        
-        
-        .login-title {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
-        
-        .login-subtitle {
-            font-size: 1rem;
-            opacity: 0.9;
-            margin-bottom: 2rem;
-            line-height: 1.5;
-            font-weight: 400;
-        }
-        
-        .key-features {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+            gap: 10px;
+            transition: all 0.3s ease;
             margin-top: 1rem;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
         }
-        
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 0.8rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-        }
-        
-        .feature-item:hover {
-            background: rgba(255, 255, 255, 0.15);
-            transform: translateX(5px);
-        }
-        
-        .feature-item i {
-            font-size: 1.2rem;
-            color: white;
-            width: 24px;
-            text-align: center;
-        }
-        
-        .feature-item span {
-            color: white;
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-        
-        .form-title {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--dark-color);
-            margin-bottom: 0.5rem;
-        }
-        
-        .form-subtitle {
-            color: var(--secondary-color);
-            margin-bottom: 1.5rem;
-            font-weight: 400;
-            font-size: 0.95rem;
-        }
-        
-        .form-floating {
-            margin-bottom: 1.2rem;
-        }
-        
-        .form-control {
-            border: 1.5px solid #e9ecef;
-            border-radius: 12px;
-            padding: 0.8rem;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            height: auto;
-        }
-        
-        .form-control:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.15rem rgba(78, 115, 223, 0.2);
-        }
-        
-        .form-floating > label {
-            padding: 0.8rem;
-        }
-        
-        .btn-login {
-            background: var(--gradient-primary);
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
-            width: 100%;
-        }
-        
+
         .btn-login:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-            color: white;
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.3);
+            filter: brightness(1.1);
         }
-        
-        .form-check-input:checked {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-        
-        .alert {
-            border: none;
-            border-radius: 8px;
-            padding: 0.8rem;
-            margin-bottom: 1.2rem;
+
+        .checkbox-custom {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
             font-size: 0.9rem;
+            cursor: pointer;
         }
-        
-        .alert-danger {
-            background: rgba(231, 74, 59, 0.1);
-            color: var(--danger-color);
-            border: 1px solid rgba(231, 74, 59, 0.2);
+
+        .checkbox-custom input {
+            width: 18px;
+            height: 18px;
+            border-radius: 6px;
+            accent-color: var(--primary);
         }
-        
-        .alert-success {
-            background: rgba(28, 200, 138, 0.1);
-            color: var(--success-color);
-            border: 1px solid rgba(28, 200, 138, 0.2);
+
+        .footer-links {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
         }
-        
-        .input-error {
-            color: var(--danger-color);
-            font-size: 0.8rem;
-            margin-top: 0.4rem;
-        }
-        
-        .social-links {
+
+        .social-link-box {
             display: flex;
             justify-content: center;
-            gap: 0.8rem;
-            margin-top: 0.8rem;
+            gap: 12px;
+            margin-top: 1rem;
         }
-        
-        .social-link {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background: rgba(0, 123, 255, 0.1);
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #0077B5;
-            text-decoration: none;
+            color: var(--text-secondary);
             transition: all 0.3s ease;
-            border: 1px solid rgba(0, 123, 255, 0.2);
+            text-decoration: none;
+        }
+
+        .social-btn:hover { background: var(--primary); color: white; transform: scale(1.1); }
+
+        .alert {
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+            border-radius: 16px;
+            padding: 12px 16px;
             font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        
-        .social-link:hover {
-            background: #0077B5;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+
+        .success-alert {
+            background: #dcfce7;
+            border: 1px solid #bbf7d0;
+            color: #166534;
         }
-        
-        
-        /* Responsive Design */
+
+        /* Responsive */
         @media (max-width: 992px) {
-            .login-container {
-                flex-direction: column;
-                max-width: 450px;
-                margin: 1rem;
-                min-height: auto;
-            }
-            
-            .login-left {
-                padding: 1.5rem;
-                min-height: auto;
-            }
-            
-            .login-right {
-                padding: 1.5rem;
-            }
-            
-            .login-title-wrapper {
-                gap: 8px;
-            }
-            
-            .title-logo {
-                width: 38px;
-                height: 38px;
-            }
-            
-            .title-logo i {
-                font-size: 1.5rem;
-            }
-            
-            .login-title {
-                font-size: 1.8rem;
-            }
-            
-            .main-logo {
-                width: 80px;
-                height: 80px;
-            }
-            
-            .main-logo i {
-                font-size: 2.5rem;
-            }
-            
-            .login-title {
-                font-size: 2rem;
-            }
-            
-            .feature-item {
-                padding: 0.6rem;
-            }
-            
-            .feature-item i {
-                font-size: 1.1rem;
-            }
-            
-            .feature-item span {
-                font-size: 0.9rem;
-            }
+            .login-wrapper { flex-direction: column; max-width: 500px; }
+            .brand-section { padding: 3rem; border-right: none; border-bottom: 1px solid var(--glass-border); }
+            .form-section { padding: 3rem; }
+            .hero-content h1 { font-size: 2.5rem; }
         }
-        
+
         @media (max-width: 576px) {
-            .login-container {
-                margin: 0.5rem;
-                border-radius: 12px;
-            }
-            
-            .login-left, .login-right {
-                padding: 1.2rem;
-            }
-            
-            .login-title-wrapper {
-                gap: 6px;
-            }
-            
-            .title-logo {
-                width: 32px;
-                height: 32px;
-            }
-            
-            .title-logo i {
-                font-size: 1.2rem;
-            }
-            
-            .login-title {
-                font-size: 1.5rem;
-            }
-            
-            .form-title {
-                font-size: 1.4rem;
-            }
-            
-            .form-subtitle {
-                font-size: 0.9rem;
-            }
-            
-            .main-logo {
-                width: 70px;
-                height: 70px;
-            }
-            
-            .main-logo i {
-                font-size: 2rem;
-            }
-            
-            .login-title {
-                font-size: 1.8rem;
-            }
-            
-            .login-subtitle {
-                font-size: 0.9rem;
-                margin-bottom: 1.5rem;
-            }
-            
-            .feature-item {
-                padding: 0.5rem;
-                gap: 0.8rem;
-            }
-            
-            .feature-item i {
-                font-size: 1rem;
-                width: 20px;
-            }
-            
-            .feature-item span {
-                font-size: 0.85rem;
-            }
-            
-            
-            .form-control {
-                font-size: 0.9rem;
-                padding: 0.7rem;
-            }
-            
-            .btn-login {
-                padding: 0.7rem 1.2rem;
-                font-size: 0.95rem;
-            }
-        }
-        
-        @media (max-width: 400px) {
-            .login-left, .login-right {
-                padding: 1rem;
-            }
-            
-            .login-title {
-                font-size: 1.3rem;
-            }
-            
-            .main-logo {
-                width: 60px;
-                height: 60px;
-            }
-            
-            .main-logo i {
-                font-size: 1.8rem;
-            }
-            
-            .login-title {
-                font-size: 1.6rem;
-            }
-            
-            .login-subtitle {
-                font-size: 0.85rem;
-                margin-bottom: 1.2rem;
-            }
-            
-            .feature-item {
-                padding: 0.4rem;
-                gap: 0.6rem;
-            }
-            
-            .feature-item i {
-                font-size: 0.9rem;
-                width: 18px;
-            }
-            
-            .feature-item span {
-                font-size: 0.8rem;
-            }
-            
-            .form-title {
-                font-size: 1.2rem;
-            }
-            
-            
-            .social-link {
-                width: 28px;
-                height: 28px;
-                font-size: 0.8rem;
-            }
-        }
-        
-        /* Icon Styling */
-        .main-logo i, .feature-item i {
-            font-style: normal;
-            font-weight: normal;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            body { padding: 15px; }
+            .brand-section, .form-section { padding: 2rem; }
+            .hero-content h1 { font-size: 2rem; }
+            .stats-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <!-- Left Side - Branding -->
-        <div class="login-left">
-            <!-- Main Logo -->
-            <div class="main-logo">
-                <i class="fas fa-calendar-check"></i>
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+
+    <div class="login-wrapper">
+        <!-- Left Side -->
+        <div class="brand-section">
+            <div class="logo-box">
+                <div class="logo-circle">
+                    <img src="https://i.ibb.co.com/4gXC7wj0/1630622969900.jpg" alt="Logo" style="width: 80%; height: 80%; object-fit: contain;">
+                </div>
+                <div class="logo-text">SMKN 1 CIOMAS</div>
             </div>
-            
-            <h1 class="login-title">Meja Piket</h1>
-            <p class="login-subtitle">
-                Sistem Manajemen Jadwal Piket SMKN 1 Ciomas
-            </p>
-            
-            <!-- Key Features -->
-            <div class="key-features">
-                <div class="feature-item">
-                    <i class="fas fa-clock"></i>
-                    <span>Jadwal Otomatis</span>
+
+            <div class="hero-content">
+                <h1>SMKN 1 CIOMAS</h1>
+                <p>Kelola jadwal piket, presensi guru, dan izin siswa dalam satu platform digital yang terintegrasi.</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-bolt"></i>
+                        <div>Real-time</div>
+                        <span>Data Terupdate</span>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <div>Secure</div>
+                        <span>Akses Terenkripsi</span>
+                    </div>
                 </div>
-                <div class="feature-item">
-                    <i class="fas fa-users"></i>
-                    <span>Manajemen Guru</span>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-clipboard-check"></i>
-                    <span>Presensi Digital</span>
-                </div>
+            </div>
+
+            <div style="margin-top: 3rem; font-size: 0.8rem; color: var(--text-secondary); opacity: 0.5;">
+                © 2024 SMKN 1 Ciomas • Education Excellence
             </div>
         </div>
-        
-        <!-- Right Side - Login Form -->
-        <div class="login-right">
-            <!-- Session Status -->
+
+        <!-- Right Side -->
+        <div class="form-section">
+            <div class="form-header">
+                <h2>Selamat Datang</h2>
+                <p>Silakan masuk untuk mengelola portal Anda</p>
+            </div>
+
             <?php if(session('status')): ?>
-                <div class="alert alert-success">
-                    <i class="fas fa-check-circle me-2"></i>
+                <div class="alert success-alert">
+                    <i class="fas fa-check-circle"></i>
                     <?php echo e(session('status')); ?>
 
                 </div>
             <?php endif; ?>
-            
-            <h2 class="form-title">Selamat Datang!</h2>
-            <p class="form-subtitle">Silakan masuk ke akun Anda untuk melanjutkan</p>
-            
+
             <form method="POST" action="<?php echo e(route('login')); ?>">
                 <?php echo csrf_field(); ?>
-                
-                <!-- Email Address -->
-                <div class="form-floating">
-                    <input type="email" 
-                           class="form-control <?php $__errorArgs = ['email'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" 
-                           id="email" 
-                           name="email" 
-                           value="<?php echo e(old('email')); ?>" 
-                           placeholder="name@example.com" 
-                           required 
-                           autofocus 
-                           autocomplete="username">
+
+                <!-- Email -->
+                <div class="input-group-custom">
+                    <input type="email" id="email" name="email" value="<?php echo e(old('email')); ?>" placeholder=" " required autofocus autocomplete="username">
+                    <i class="fas fa-envelope"></i>
                     <label for="email">Email Address</label>
-                    <?php $__errorArgs = ['email'];
+                </div>
+                <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                        <div class="input-error">
-                            <i class="fas fa-exclamation-circle me-1"></i>
-                            <?php echo e($message); ?>
+                    <div class="alert" style="margin-top: -10px; margin-bottom: 20px;">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <?php echo e($message); ?>
 
-                        </div>
-                    <?php unset($message);
+                    </div>
+                <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                </div>
 
                 <!-- Password -->
-                <div class="form-floating">
-                    <input type="password" 
-                           class="form-control <?php $__errorArgs = ['password'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" 
-                           id="password" 
-                           name="password" 
-                           placeholder="Password" 
-                           required 
-                           autocomplete="current-password">
+                <div class="input-group-custom">
+                    <input type="password" id="password" name="password" placeholder=" " required autocomplete="current-password">
+                    <i class="fas fa-lock"></i>
                     <label for="password">Password</label>
-                    <?php $__errorArgs = ['password'];
+                </div>
+                <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                        <div class="input-error">
-                            <i class="fas fa-exclamation-circle me-1"></i>
-                            <?php echo e($message); ?>
+                    <div class="alert" style="margin-top: -10px; margin-bottom: 20px;">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <?php echo e($message); ?>
 
-                        </div>
-                    <?php unset($message);
+                    </div>
+                <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                </div>
 
-                <!-- Remember Me -->
-                <div class="form-check mb-4">
-                    <input class="form-check-input" type="checkbox" id="remember_me" name="remember">
-                    <label class="form-check-label" for="remember_me">
-                        Ingat saya
-                    </label>
-                </div>
+                <label class="checkbox-custom">
+                    <input type="checkbox" name="remember">
+                    <span>Ingat perangkat ini</span>
+                </label>
 
-                <!-- Login Button -->
                 <button type="submit" class="btn btn-login">
-                    <i class="fas fa-sign-in-alt me-2"></i>
-                    Masuk
+                    <span>Masuk ke Panel</span>
+                    <i class="fas fa-arrow-right"></i>
                 </button>
             </form>
-            
-            <div class="text-center mt-3">
-                <small class="text-muted">
-                    © 2024 Meja Piket. System SMKN 1 Ciomas
-                </small>
-                <div class="social-links mt-2">
-                    <a href="https://id.linkedin.com/school/smkn1ciomas/" target="_blank" class="social-link" title="SMKN 1 Ciomas LinkedIn">
-                        <i class="fab fa-linkedin"></i>
+
+            <div class="footer-links">
+                <p>Butuh bantuan akses?</p>
+                <div class="social-link-box">
+                    <a href="https://id.linkedin.com/school/smkn1ciomas/" target="_blank" class="social-btn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="social-btn">
+                        <i class="fas fa-globe"></i>
                     </a>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- Bootstrap JS -->
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Debug Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('=== LOGIN DEBUG ===');
-            console.log('Current URL:', window.location.href);
-            console.log('CSRF Token:', document.querySelector('meta[name="csrf-token"]')?.getAttribute('content'));
-            
-            // Add form submit debugging
-            const loginForm = document.querySelector('form[action="<?php echo e(route('login')); ?>"]');
-            if (loginForm) {
-                loginForm.addEventListener('submit', function(e) {
-                    console.log('Form submitted');
-                    console.log('Email:', document.getElementById('email').value);
-                    console.log('Action:', this.action);
-                });
-            }
-        });
-    </script>
 </body>
 </html><?php /**PATH C:\antigravity\website-sekolah-main\resources\views/auth/login.blade.php ENDPATH**/ ?>

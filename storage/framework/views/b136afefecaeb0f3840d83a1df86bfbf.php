@@ -52,8 +52,29 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                     </div>
-                    
+
                     <div class="mb-3">
+                        <label class="form-label">Jenis Kelamin</label>
+                        <div class="d-flex gap-3 mt-1">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="jenis_kelamin" id="jk_l" value="L" <?php echo e(old('jenis_kelamin') == 'L' ? 'checked' : ''); ?>>
+                                <label class="form-check-label" for="jk_l">Laki-laki</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="jenis_kelamin" id="jk_p" value="P" <?php echo e(old('jenis_kelamin') == 'P' ? 'checked' : ''); ?>>
+                                <label class="form-check-label" for="jk_p">Perempuan</label>
+                            </div>
+                        </div>
+                        <?php $__errorArgs = ['jenis_kelamin'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?><div class="text-danger small mt-1"><?php echo e($message); ?></div><?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                    </div>
+
                         <label for="kelas" class="form-label">Kelas</label>
                         <select name="kelas" id="kelas" class="form-select <?php $__errorArgs = ['kelas'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');

@@ -17,6 +17,7 @@ class Keterlambatan extends Model
         'id_siswa',
         'id_guru',
         'waktu_datang',
+        'durasi',
         'keterangan'
     ];
 

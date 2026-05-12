@@ -30,7 +30,7 @@
     <div class="tbl-head"><h5><i class="fas fa-table"></i> Daftar Keterlambatan</h5></div>
     <div style="overflow-x:auto">
     <table class="pro-table" id="tbl">
-        <thead><tr><th>#</th><th>Siswa</th><th>Kelas</th><th>Waktu Datang</th><th>Keterangan</th><th>Dicatat Oleh</th><th style="text-align:center">Aksi</th></tr></thead>
+        <thead><tr><th>#</th><th>Siswa</th><th>Kelas</th><th>Waktu Datang</th><th>Durasi</th><th>Keterangan</th><th>Dicatat Oleh</th><th style="text-align:center">Aksi</th></tr></thead>
         <tbody>
         @forelse($keterlambatan as $i => $k)
         <tr>
@@ -38,6 +38,7 @@
             <td><div style="display:flex;align-items:center;gap:.6rem"><div class="av" style="background:linear-gradient(135deg,#f5576c,#f093fb)">{{ strtoupper(substr($k->siswa->nama??'?',0,1)) }}</div><span style="font-weight:600;color:#2d3748">{{ $k->siswa->nama??'-' }}</span></div></td>
             <td><span class="tag p">{{ $k->siswa->kelas??'-' }}</span></td>
             <td><span style="font-size:.85rem;color:#4a5568">{{ \Carbon\Carbon::parse($k->waktu_datang)->format('d M Y H:i') }}</span></td>
+            <td><span class="tag w">{{ $k->durasi }} Min</span></td>
             <td><span style="color:#718096;font-size:.85rem">{{ Str::limit($k->keterangan,40) ?? '-' }}</span></td>
             <td><span style="color:#718096;font-size:.82rem">{{ $k->guru->nama??'-' }}</span></td>
             <td><div class="act-btns" style="justify-content:center">

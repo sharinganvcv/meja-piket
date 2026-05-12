@@ -18,7 +18,9 @@ class Guru extends Model
         'nama',
         'nik',
         'jabatan',
-        'jenis_kelamin'
+        'jenis_kelamin',
+        'jam_masuk',
+        'jam_pulang'
     ];
 
     public function piket(): HasMany

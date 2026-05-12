@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eduspace - Sistem Meja Piket Sekolah</title>
+    <title>SMKN 1 CIOMAS - Sistem Meja Piket Sekolah</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
@@ -1054,8 +1054,8 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <i class="fas fa-graduation-cap"></i>
-                Meja Piket
+                <img src="https://i.ibb.co.com/4gXC7wj0/1630622969900.jpg" alt="Logo" style="height: 40px; margin-right: 10px;">
+                SMKN 1 CIOMAS
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -1089,9 +1089,9 @@
         <div class="container">
             <div class="hero-content" data-aos="fade-up">
                 <div class="hero-badge">
-                    <i class="fas fa-star me-2"></i>System Meja Piket Sekolah SMKN 1 Ciomas
+                    <i class="fas fa-star me-2"></i>Sistem Meja Piket SMKN 1 Ciomas
                 </div>
-                <h1 class="hero-title">System Piket</h1>
+                <h1 class="hero-title">SMKN 1 CIOMAS</h1>
                 <p class="hero-subtitle">
                     System Meja Piket adalah sistem yang digunakan untuk mengelola jadwal meja piket di sekolah.
                 </p>
@@ -1260,7 +1260,7 @@
             <div class="cta-content" data-aos="fade-up">
                 <h2 class="cta-title">Siap Meningkatkan Efisiensi Sekolah Anda?</h2>
                 <p class="cta-subtitle">
-                    Bergabunglah dengan ratusan sekolah yang telah mempercayai Eduspace untuk mengelola operasional mereka
+                    Bergabunglah dengan keluarga besar sekolah yang telah mempercayai Sistem Meja Piket untuk mengelola operasional harian
                 </p>
                 <a href="{{ route('login') }}" class="btn-cta">
                     <i class="fas fa-arrow-right"></i>
@@ -1275,8 +1275,8 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <i class="fas fa-graduation-cap"></i>
-                    Eduspace
+                    <img src="https://i.ibb.co.com/4gXC7wj0/1630622969900.jpg" alt="Logo" style="height: 30px; margin-right: 10px;">
+                    SMKN 1 CIOMAS
                 </div>
                 <p class="footer-description">
                     Sistem Manajemen Sekolah Modern yang memudahkan pengelolaan data akademik dan administrasi sekolah dengan teknologi terkini
@@ -1299,7 +1299,7 @@
                     </a>
                 </div>
                 <div class="footer-bottom">
-                    <p>&copy; 2024 Eduspace. All rights reserved. Made with <i class="fas fa-heart text-danger"></i> in Indonesia</p>
+                    <p>&copy; 2024 SMKN 1 CIOMAS. All rights reserved. Made with <i class="fas fa-heart text-danger"></i> in Indonesia</p>
                 </div>
             </div>
         </div>

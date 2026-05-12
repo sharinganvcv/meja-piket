@@ -28,7 +28,22 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    
+
+                    <div class="mb-3">
+                        <label class="form-label">Jenis Kelamin</label>
+                        <div class="d-flex gap-3 mt-1">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="jenis_kelamin" id="jk_l" value="L" {{ old('jenis_kelamin', $siswa->jenis_kelamin) == 'L' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="jk_l">Laki-laki</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="jenis_kelamin" id="jk_p" value="P" {{ old('jenis_kelamin', $siswa->jenis_kelamin) == 'P' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="jk_p">Perempuan</label>
+                            </div>
+                        </div>
+                        @error('jenis_kelamin')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
+                    </div>
+
                     <div class="mb-3">
                         <label for="kelas" class="form-label">Kelas</label>
                         <select name="kelas" id="kelas" class="form-select @error('kelas') is-invalid @enderror" required>

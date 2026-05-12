@@ -34,6 +34,17 @@
                             <label class="form-label fw-bold">Tanggal Dibuat</label>
                             <p class="form-control-plaintext">{{ $guru->created_at->format('d/m/Y H:i') }}</p>
                         </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Jam Jaga</label>
+                            <p class="form-control-plaintext">
+                                @if($guru->jam_masuk && $guru->jam_pulang)
+                                    {{ \Carbon\Carbon::parse($guru->jam_masuk)->format('H:i') }} - {{ \Carbon\Carbon::parse($guru->jam_pulang)->format('H:i') }}
+                                @else
+                                    <span class="text-muted">-</span>
+                                @endif
+                            </p>
+                        </div>
                     </div>
                 </div>
                 

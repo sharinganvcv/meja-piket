@@ -85,10 +85,10 @@ class DashboardController extends Controller
     private function getRoleBasedData($role)
     {
         $data = [
-            'canManageSiswa' => in_array($role, ['admin', 'kepsek']),
-            'canManageGuru' => in_array($role, ['admin', 'kepsek']),
-            'canManagePiket' => in_array($role, ['admin', 'kepsek']),
-            'canManagePelanggaran' => in_array($role, ['admin', 'kepsek']),
+            'canManageSiswa' => in_array($role, ['admin', 'guru', 'kepsek']),
+            'canManageGuru' => in_array($role, ['admin', 'guru', 'kepsek']),
+            'canManagePiket' => in_array($role, ['admin', 'guru', 'kepsek']),
+            'canManagePelanggaran' => in_array($role, ['admin', 'guru', 'kepsek']),
             'canManageKeterlambatan' => in_array($role, ['admin', 'kepsek', 'guru']),
             'canManageIzin' => in_array($role, ['admin', 'kepsek', 'guru']),
             'dashboardStats' => $this->getDashboardStats($role),
@@ -137,7 +137,7 @@ class DashboardController extends Controller
         ];
         
         // Role-specific actions
-        if (in_array($role, ['admin', 'kepsek'])) {
+        if (in_array($role, ['admin', 'guru', 'kepsek'])) {
             $actions[] = [
                 'title' => 'Data Siswa',
                 'icon' => 'fas fa-users',

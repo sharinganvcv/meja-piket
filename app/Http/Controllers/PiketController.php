@@ -17,7 +17,7 @@ class PiketController extends Controller
 
     public function create()
     {
-        if (auth()->user()->role !== 'admin') {
+        if (!in_array(auth()->user()->role, ['admin', 'guru'])) {
             abort(403, 'Unauthorized access');
         }
         $guru = Guru::all();
@@ -26,7 +26,7 @@ class PiketController extends Controller
 
     public function store(Request $request)
     {
-        if (auth()->user()->role !== 'admin') {
+        if (!in_array(auth()->user()->role, ['admin', 'guru'])) {
             abort(403, 'Unauthorized access');
         }
         $request->validate([
@@ -42,7 +42,7 @@ class PiketController extends Controller
 
     public function edit(Piket $piket)
     {
-        if (auth()->user()->role !== 'admin') {
+        if (!in_array(auth()->user()->role, ['admin', 'guru'])) {
             abort(403, 'Unauthorized access');
         }
         $guru = Guru::all();
@@ -51,7 +51,7 @@ class PiketController extends Controller
 
     public function update(Request $request, Piket $piket)
     {
-        if (auth()->user()->role !== 'admin') {
+        if (!in_array(auth()->user()->role, ['admin', 'guru'])) {
             abort(403, 'Unauthorized access');
         }
         $request->validate([
@@ -73,7 +73,7 @@ class PiketController extends Controller
 
     public function destroy(Piket $piket)
     {
-        if (auth()->user()->role !== 'admin') {
+        if (!in_array(auth()->user()->role, ['admin', 'guru'])) {
             abort(403, 'Unauthorized access');
         }
         $piket->delete();
@@ -84,7 +84,7 @@ class PiketController extends Controller
 
     public function laporan()
     {
-        if (auth()->user()->role !== 'kepsek') {
+        if (!in_array(auth()->user()->role, ['admin', 'guru', 'kepsek'])) {
             abort(403, 'Unauthorized access');
         }
         

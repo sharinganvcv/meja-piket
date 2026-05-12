@@ -28,7 +28,9 @@ class GuruController extends Controller
     {
         $request->validate([
             'nama' => 'required|max:100',
-            'jabatan' => 'required|max:50'
+            'jabatan' => 'required|max:50',
+            'jam_masuk' => 'nullable',
+            'jam_pulang' => 'nullable'
         ]);
 
         Guru::create($request->all());
@@ -54,7 +56,9 @@ class GuruController extends Controller
         }
         $request->validate([
             'nama' => 'required|max:100',
-            'jabatan' => 'required|max:50'
+            'jabatan' => 'required|max:50',
+            'jam_masuk' => 'nullable',
+            'jam_pulang' => 'nullable'
         ]);
 
         $guru->update($request->all());
@@ -76,7 +80,7 @@ class GuruController extends Controller
 
     public function laporan()
     {
-        if (auth()->user()->role !== 'kepsek') {
+        if (!in_array(auth()->user()->role, ['admin', 'guru', 'kepsek'])) {
             abort(403, 'Unauthorized access');
         }
         

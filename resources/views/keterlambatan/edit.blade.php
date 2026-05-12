@@ -24,6 +24,15 @@
                     <label class="form-label">Waktu Datang</label>
                     <input type="text" class="form-control" value="{{ $keterlambatan->waktu_datang->format('d/m/Y H:i') }}" readonly disabled>
                 </div>
+
+                <div class="mb-3">
+                    <label for="durasi" class="form-label">Durasi Keterlambatan (Menit)</label>
+                    <input type="number" class="form-control @error('durasi') is-invalid @enderror" 
+                           id="durasi" name="durasi" value="{{ old('durasi', $keterlambatan->durasi) }}" required min="0">
+                    @error('durasi')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
                 
                 <div class="mb-3">
                     <label for="keterangan" class="form-label">Keterangan</label>

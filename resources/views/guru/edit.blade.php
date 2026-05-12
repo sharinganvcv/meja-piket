@@ -27,6 +27,25 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="jam_masuk" class="form-label">Jam Mulai Jaga</label>
+                        <input type="time" class="form-control @error('jam_masuk') is-invalid @enderror" 
+                               id="jam_masuk" name="jam_masuk" value="{{ old('jam_masuk', $guru->jam_masuk) }}">
+                        @error('jam_masuk')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="jam_pulang" class="form-label">Jam Selesai Jaga</label>
+                        <input type="time" class="form-control @error('jam_pulang') is-invalid @enderror" 
+                               id="jam_pulang" name="jam_pulang" value="{{ old('jam_pulang', $guru->jam_pulang) }}">
+                        @error('jam_pulang')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
                 
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">Update</button>

@@ -112,7 +112,7 @@ class PelanggaranController extends Controller
 
     public function laporan(): View
     {
-        if (auth()->user()->role !== 'kepsek') {
+        if (!in_array(auth()->user()->role, ['admin', 'guru', 'kepsek'])) {
             abort(403, 'Unauthorized access');
         }
         
